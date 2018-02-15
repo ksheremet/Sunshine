@@ -15,19 +15,53 @@
  */
 package com.example.android.sunshine.data;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
 /**
  * Manages a local database for weather data.
  */
-// TODO (11) Extend SQLiteOpenHelper from WeatherDbHelper
-public class WeatherDbHelper {
+// Completed (11) Extend SQLiteOpenHelper from WeatherDbHelper
+public class WeatherDbHelper extends SQLiteOpenHelper {
+    //  Completed (12) Create a public static final String called DATABASE_NAME with value "weather.db"
+    private static final String DATABASE_NAME = "weather.db";
 
-//  TODO (12) Create a public static final String called DATABASE_NAME with value "weather.db"
+    //  Completed (13) Create a private static final int called DATABASE_VERSION and set it to 1
+    private static final int DATABASE_VERSION = 1;
 
-//  TODO (13) Create a private static final int called DATABASE_VERSION and set it to 1
+    //  Completed (14) Create a constructor that accepts a context and call through to the superclass constructor
+    public WeatherDbHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
 
-//  TODO (14) Create a constructor that accepts a context and call through to the superclass constructor
 
-//  TODO (15) Override onCreate and create the weather table from within it
+    //  Completed (15) Override onCreate and create the weather table from within it
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        final String sqlWeatherTable = "CREATE TABLE " +
+                WeatherContract.WeatherEntry.TABLE_NAME + " (" +
+                // ID generated when we create new row.
+                WeatherContract.WeatherEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                WeatherContract.WeatherEntry.COLUMN_DATE + " INTEGER, " +
+                WeatherContract.WeatherEntry.COLUMN_WEATHER_ID + " INTEGER, " +
+                // Text field. it cannot be null.
+                WeatherContract.WeatherEntry.COLUMN_MAX_TEMP + " REAL, " +
+                WeatherContract.WeatherEntry.COLUMN_MIN_TEMP + " REAL, " +
 
-//  TODO (16) Override onUpgrade, but don't do anything within it yet
+                WeatherContract.WeatherEntry.COLUMN_HUMIDITY + " REAL, " +
+                WeatherContract.WeatherEntry.COLUMN_PRESSURE + " REAL, " +
+
+                WeatherContract.WeatherEntry.COLUMN_WIND_SPEED + " REAL, " +
+                WeatherContract.WeatherEntry.COLUMN_DEGREES + " REAL" + ");";
+
+        // Creates database.
+        sqLiteDatabase.execSQL(sqlWeatherTable);
+    }
+
+    //  Completed (16) Override onUpgrade, but don't do anything within it yet
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
+    }
 }
